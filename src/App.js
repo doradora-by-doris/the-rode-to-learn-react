@@ -23,8 +23,10 @@ const list = [
 const isSearched = searchTerm => item =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
-function FormattedDate(props) {
-  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
+function increaseCount(prevState){
+  return {
+    count : prevState.count + 1
+  }
 }
 
 const largeColumn = {
@@ -39,42 +41,6 @@ const smallColumn = {
   width: '10%',
 };
 
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: new Date()
-    };
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Hello, world!</h1>
-        <FormattedDate 
-          date={this.state.date} 
-        />
-      </div>
-    );
-  }
-}
 
 class App extends Component {
   constructor(props) {
@@ -116,7 +82,11 @@ class App extends Component {
         />
 
         <div>
-          <Clock />
+          <BadCounter />
+        </div>
+
+        <div>
+          <GoodCounter />
         </div>
       </div>
 
@@ -174,6 +144,54 @@ class Button extends Component {
         {children}
       </button>
     );
+  }
+}
+
+class BadCounter extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      count : 0
+    } 
+    this.incrementCount = this.incrementCount.bind(this)
+  }
+
+  incrementCount(){
+    this.setState({
+      count : this.state.count + 1
+    })
+    this.setState({
+      count : this.state.count + 1
+    })
+  }
+
+  render(){
+    return <div>
+              <button onClick={this.incrementCount}>Increment</button>
+              <div>Worng: {this.state.count}</div>
+          </div>
+  }
+}
+
+class GoodCounter extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      count : 0
+    }
+    this.handleIncreaseScore = this.handleIncreaseScore.bind(this)
+  }
+
+  handleIncreaseScore(){
+    this.setState(increaseCount)
+    this.setState(increaseCount)
+  }
+
+  render(){
+    return <div>
+              <button onClick={this.handleIncreaseScore}>Increment</button>
+              <div>Correct: {this.state.count}</div>
+          </div>
   }
 }
 
