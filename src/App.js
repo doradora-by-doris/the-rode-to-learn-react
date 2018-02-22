@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class Developer {
-  constructor(firstname, lastname) {
-    this.firstname = firstname;
-    this.lastname = lastname;
-  }
-
-  getName() {
-    return this.firstname + ' ' + this.lastname;
-  }
-}
-
 const list = [
   {
     title: 'React',
@@ -34,6 +23,10 @@ const list = [
 const isSearched = searchTerm => item =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
+function FormattedDate(props) {
+  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
+}
+
 const largeColumn = {
   width: '40%',
 };
@@ -45,6 +38,43 @@ const midColumn = {
 const smallColumn = {
   width: '10%',
 };
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date()
+    };
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <FormattedDate 
+          date={this.state.date} 
+        />
+      </div>
+    );
+  }
+}
 
 class App extends Component {
   constructor(props) {
@@ -68,61 +98,9 @@ class App extends Component {
   }
 
   render() {
-    const helloWorld = {
-      text: '리액트에 오신걸 환영합니다'
-    };
-
-    var first_username = 'Doris';
-    var last_username = 'Kang';
-
-    const robin = new Developer('Robin', 'Wieruch');
-
     const { searchTerm, list } = this.state;
     return (
       <div className="page">
-        <h2>{helloWorld.text}</h2>
-        <h5>This is {first_username} {last_username}.</h5>
-        {list.map(item => 
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title} </a>
-            </span>
-            <span>{item.author} </span>
-            <span>{item.num_comments} </span>
-            <span>{item.points}</span>
-          </div>
-        )}
-        <span>{robin.getName()}</span>
-
-        {this.state.list.map(item =>{
-          const onHandleDismiss = () =>
-            this.onDismiss(item.objectID);
-            return(
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button
-                onClick={onHandleDismiss}
-                type="button">
-                dismiss
-              </button>
-              <button
-                onClick={() => console.log(item.objectID)}
-                type="button">
-                inline
-              </button>
-
-            </span>
-          </div>);
-        }
-          
-        )}
-        <h3>Chapter2</h3>
         <div className="interactions">
           <Search
             value={searchTerm}
@@ -136,7 +114,10 @@ class App extends Component {
           pattern={searchTerm}
           onDismiss={this.onDismiss}
         />
-      
+
+        <div>
+          <Clock />
+        </div>
       </div>
 
     );
