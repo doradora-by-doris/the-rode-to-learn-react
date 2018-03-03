@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+
 import './App.css';
 
 const DEFAULT_QUERY = 'redux';
@@ -11,9 +13,8 @@ const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
 
-// const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
 const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}${PARAM_PAGE}`;
-console.log(url);
+// console.log(url);
 
 const largeColumn = {
   width: '40%',
@@ -227,6 +228,20 @@ const Table = ({ list, onDismiss }) =>
   )}
 </div>
 
+// proptypes
+Table.propTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number,
+    })
+  ).isRequired,
+  onDismiss: PropTypes.func,
+};
+
 
 class Button extends Component {
   render() {
@@ -245,10 +260,22 @@ class Button extends Component {
         {children}
       </button>
     );
+
+    // Proptypes testing
+    Button.propTypes = {
+      onClick: PropTypes.func.isRequired,
+      className: PropTypes.string,
+      children: PropTypes.node.isRequired,
+    };
   }
 }
 
 
-
 export default App;
-// 
+
+export {
+  Button,
+  Search,
+  Table,
+};
+
