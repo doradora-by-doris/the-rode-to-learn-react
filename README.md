@@ -1,4 +1,4 @@
-## Harckernews
+## Hackernews
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and deployed to Heroku app [hackernews-tutorial-doris](https://hackernews-tutorial-doris.herokuapp.com/).
